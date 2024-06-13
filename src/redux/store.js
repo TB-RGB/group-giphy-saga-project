@@ -34,7 +34,7 @@ function* fetchSearch(action) {
 function* fetchFavorites(action) {
   try {
     const favoritesResponse = yield axios("/api/favorites");
-    yield put({ type: "ADD_FAVORITE", payload: action.payload });
+    yield put({ type: "ADD_FAVORITE", payload: favoritesResponse.data});
   } catch (err) {
     console.log("Error in fetching favorites", err);
   }
@@ -93,7 +93,7 @@ const favoriteList = (state = [], action) => {
 const searchResults = (state = [], action) => {
   switch (action.type) {
     case "SET_SEARCH":
-      return action.payload;
+      return action.payload.data;
     default:
       return state;
   }

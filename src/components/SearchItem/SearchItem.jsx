@@ -4,7 +4,7 @@ const SearchItem =({ giphy })=>{
     const dispatch = useDispatch()
 
     const addFavorite = ()=>{
-        dispatch({type: 'SEND_FAVORITE', payload: { url: giphy.data.images.original.url}})
+        dispatch({type: 'SEND_FAVORITE', payload: { url: giphy.images.original.url}})
     }
 
 
@@ -12,7 +12,7 @@ const SearchItem =({ giphy })=>{
         <>
         <div>
             <div>
-                <img src={giphy.data.images.original.url} alt="" />
+                <img src={giphy.images.original.url} alt="" />
             </div>
             <button onClick={()=>addFavorite()}>Add Favorite</button>
         </div>
