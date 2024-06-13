@@ -48,7 +48,6 @@ router.put('/:id', (req, res) => {
   pool.query(queryText, [categoryId, favId])
     .then(results => {
       res.sendStatus(200);
-      console.log(results);
     })
     .catch(error => {
       console.log( "error with PUT category update",error);
