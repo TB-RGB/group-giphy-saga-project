@@ -11,15 +11,25 @@ const sagaMiddleware = createSagaMiddleware();
 const favoriteList = (state = [], action) => {
   switch (action.type) {
     case "ADD_FAVORITE":
-      return [...state, action.payload];
+      return action.payload;
     default:
       return state;
   }
 };
 
+const searchResults = (state=[], action)=>{
+    switch(action.type){
+        case 'SET_SEARCH':
+            return action.payload
+        default:
+            return state
+    }
+}
+
 const store = createStore(
     combineReducers({
-        favoriteList
+        favoriteList,
+        searchResults
     }),
     applyMiddleware(sagaMiddleware, logger)
 )
