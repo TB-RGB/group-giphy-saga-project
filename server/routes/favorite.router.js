@@ -20,38 +20,45 @@ router.get('/', (req, res) => {
 
 // add a new favorite
 router.post('/', (req, res) => {
-  
-  
-  res.sendStatus(201);
-  pool.query(queryText, queryValues)
-  .then((result) => { res.sendStatus(201); })
+  console.log('favorite added:', req.body)
+  let queryText = `INSERT INTO "favorites"("image_url")
+    VALUES ('${req.body.image_url}');`
+  pool.query(queryText)
+    .then(result => {
+      res.sendStatus(200);
+    })
   .catch((err) => {
-    console.log('Error in POST /api/plants', err);
+    console.log('Error in POST /api/favorites', err);
     res.sendStatus(500);
   });
 });
 
 // update a favorite's associated category
-router.put('/:id', (req, res) => {
-  // req.body should contain a category_id to add to this favorite image
-  pool.query(queryText, queryValues)
-    .then((result) => { res.sendStatus(200); })
-    .catch((err) => {
-      console.log('Error in PUT /:id', err);
+
+router.put('/:favId', (req, res) => {
+
+  console.log('image id/req.body.id:', req.body.id, 'categoryID/req.params.favId', req.params.favId)
+  let favId = req.params.favId;
+  let queryText = `UPDATE "favorites"
+ SET "category_id" = $1
+ WHERE "id" = $2;`;
+  pool.query(queryText, [req.body.id, favId])
+    .then(results => {
+      res.sendStatus(200);
+      console.log(results);
+    })
+    .catch(error => {
+      console.log( "error with PUT category update",error);
       res.sendStatus(500);
+    })
 });
-})
 // delete a favorite
 router.delete('/:id', (req, res) => {
   res.sendStatus(200);
-
-  const queryText = `
-  
-`;
-pool.query(queryText, [req.params.id])
+pool.query(queryText, [req.body.id])
   .then(() => { res.sendStatus(200); })
   .catch((err) => {
-    console.log('Error in DELETE /:id', err);
+    console.log('Error in DELETE /api/favorites', err);
     res.sendStatus(500);
   });
 });
