@@ -1,8 +1,10 @@
+
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import logger from "redux-logger";
 import axios from "axios";
 import createSagaMiddleware from "redux-saga";
 import { takeLatest, put } from "redux-saga/effects";
+
 
 function* rootSaga() {
   yield takeLatest("FETCH_SEARCH", fetchSearch);
@@ -12,12 +14,13 @@ function* rootSaga() {
   yield takeLatest("DROP_FAVORITE", dropFavorite);
   yield takeLatest("FETCH_CATEGORIES", fetchCategories);
 }
-
+const apiKey = import.meta.env.VITE_GIPHY_API_KEY
 function* fetchSearch(action) {
   try {
+  
     const searchResponse = yield axios("https://api.giphy.com/v1/gifs/search", {
       params: {
-        api_key: process.env.GIPHY_API_KEY,
+        api_key: apiKey,
         q: action.payload,
       },
     });
