@@ -35,14 +35,17 @@ router.post('/', (req, res) => {
 
 // update a favorite's associated category
 
-router.put('/:favId', (req, res) => {
+router.put('/:id', (req, res) => {
 
-  console.log('image id/req.body.id:', req.body.id, 'categoryID/req.params.favId', req.params.favId)
-  let favId = req.params.favId;
-  let queryText = `UPDATE "favorites"
- SET "category_id" = $1
+  
+  const favId = req.params.id;
+  const categoryId = req.body.categoryId
+  let queryText = `
+  UPDATE "favorites"
+ SET "category" = $1
  WHERE "id" = $2;`;
-  pool.query(queryText, [req.body.id, favId])
+ console.log("req.body", req.body)
+  pool.query(queryText, [categoryId, favId])
     .then(results => {
       res.sendStatus(200);
       console.log(results);
@@ -54,8 +57,12 @@ router.put('/:favId', (req, res) => {
 });
 // delete a favorite
 router.delete('/:id', (req, res) => {
-  res.sendStatus(200);
-pool.query(queryText, [req.body.id])
+
+  const queryText = `
+  DELETE FROM "favorites" WHERE "id" = $1
+  `
+  
+pool.query(queryText, [req.params.id])
   .then(() => { res.sendStatus(200); })
   .catch((err) => {
     console.log('Error in DELETE /api/favorites', err);

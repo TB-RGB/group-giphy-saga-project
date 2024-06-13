@@ -52,8 +52,9 @@ function* sendFavorite(action) {
 function* setCategory(action) {
   try {
     yield axios.put(
-      `/api/favorites${action.payload.id}`,
-      action.payload.categoryId
+      `/api/favorites/${action.payload.id}`,
+      action.payload
+      
     );
     yield put({ type: "FETCH_FAVORITES" });
   } catch (err) {
