@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux"
 import { useState } from "react"
+import { Button } from "@mui/material"
 
 
 const SearchForm = () => {
@@ -15,6 +16,7 @@ const handleChange = (event) => {
         event.preventDefault()
         console.log("In submitSearch")
 dispatch({type: 'FETCH_SEARCH', payload: searchText})
+        setSearchText('')
 
     }
     return (
@@ -25,7 +27,7 @@ dispatch({type: 'FETCH_SEARCH', payload: searchText})
         name='search'
         value={searchText}
         onChange={handleChange}></input>
-        <button type="submit">Search</button>
+        <Button type="submit">Search</Button>
        </form>
         </>
     )
