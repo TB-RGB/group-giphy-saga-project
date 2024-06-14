@@ -18,10 +18,10 @@ const apiKey = import.meta.env.VITE_GIPHY_API_KEY
 function* fetchSearch(action) {
   try {
   
-    const searchResponse = yield axios("https://api.giphy.com/v1/gifs/search", {
+    const searchResponse = yield axios.get("https://api.giphy.com/v1/gifs/search", {
       params: {
         api_key: apiKey,
-        q: action.payload,
+        q: action.payload
       },
     });
 
@@ -33,7 +33,7 @@ function* fetchSearch(action) {
 
 function* fetchFavorites(action) {
   try {
-    const favoritesResponse = yield axios("/api/favorites");
+    const favoritesResponse = yield axios.get("/api/favorites");
     yield put({ type: "ADD_FAVORITE", payload: favoritesResponse.data});
   } catch (err) {
     console.log("Error in fetching favorites", err);
