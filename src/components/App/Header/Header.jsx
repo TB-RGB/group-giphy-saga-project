@@ -30,6 +30,7 @@ const Header = () => {
 
   const submitSearch = () => {
     dispatch({ type: "FETCH_SEARCH", payload: searchText });
+    setSearchText('')
     history.push("/");
   };
 
@@ -53,6 +54,7 @@ const Header = () => {
             >
               GIPHY Search!
             </Typography>
+            <form onSubmit={submitSearch}>
               <TextField
                 placeholder="Search…"
                 value={searchText}
@@ -62,6 +64,7 @@ const Header = () => {
             <IconButton onClick={() => submitSearch()}>
               <SendRoundedIcon />
             </IconButton>
+            </form>
           </Toolbar>
         </AppBar>
       </Box>
