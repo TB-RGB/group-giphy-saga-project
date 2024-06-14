@@ -1,10 +1,6 @@
 import { useSelector } from "react-redux"
 import SearchItem from "../SearchItem/SearchItem"
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import ImageListItemBar from '@mui/material/ImageListItemBar';
-import ListSubheader from '@mui/material/ListSubheader';
-import IconButton from '@mui/material/IconButton';
+
 
 
 
