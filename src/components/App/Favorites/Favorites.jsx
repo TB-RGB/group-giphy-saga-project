@@ -1,53 +1,89 @@
-import { useSelector } from "react-redux";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-//might had button to go back to search 
+
+
+
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+//might had button to go back to search
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const Favorites = () => {
-  const favor = useSelector(store => store.favoriteList)
-  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch({ type: "FETCH_CATEGORIES" });
+  }, []);
 
-  const [getCatogory, setCatogory] = useState('ALL')
+  const favor = useSelector((store) => store.favoriteList);
+  const categoryList = useSelector((store) => store.categories);
+  const dispatch = useDispatch();
 
-  const categories = ['ALL', ...new Set(favor.map(fav => fav.categories))]
-
-  const filterFavor = getCatogory === 'ALL'
-    ? favor
-    : favor.filter(fav => fav.category === getCatogory);
+  const [getCategory, setCategory] = useState("1");
+  const [filterCategory, setFilterCategory] = useState(0);
 
   const handleRemove = (event, id) => {
-    event.preventDefault()
-    dispatch({ type: "DROP_FAVORITE", payload: id })
-  }
-
+    event.preventDefault();
+    dispatch({ type: "DROP_FAVORITE", payload: id });
+  };
+  const sendCategory = (catId, favId) => {
+    dispatch({
+      type: "SET_CATEGORY",
+      payload: { id: favId, categoryId: Number(catId) },
+    });
+  };
   return (
     <>
       <div>
         <h3>Favorite Images</h3>
+        <nav>
+          <button onClick={() => setFilterCategory(categoryList[0].id)}>
+            {categoryList[0].name}
+          </button>
+          <button onClick={() => setFilterCategory(categoryList[1].id)}>
+            {categoryList[1].name}
+          </button>
+          <button onClick={() => setFilterCategory(categoryList[2].id)}>
+            {categoryList[2].name}
+          </button>
+          <button onClick={() => setFilterCategory(categoryList[3].id)}>
+            {categoryList[3].name}
+          </button>
+          <button onClick={() => setFilterCategory(categoryList[4].id)}>
+            {categoryList[4].name}
+          </button>
+        </nav>
         <ul>
-          {favor.map((fav, index) => (
-
-
-            <li key={index}>
-              <img src={fav.url} alt={`Favorite ${index}`} /> <button onClick={(event) => handleRemove(fav.id)}>remove</button>
-
-              =
-              <select
+          {favor.map((fav) => (
+            <li key={fav.id}>
+              <img src={fav.url} alt={`Favorite ${fav.id}`} />{" "}
+              <button onClick={(event) => handleRemove(event, fav.id)}>
+                remove
+              </button>
+              {/* <select
                 value={getCatogory}
-                onClick={(e) => setCatogory(e.target.value)}
-              > Select  </select>
-              {categories.map((category, index) => {
-                <option key={index} value={category} > {category} </option>
-              })}
 
+                onChange={(e) => setCatogory(e.target.value)}
+              > {categoryList.map((category, index) => {
+                <option key={index} value={category}> {category} </option>
+              })} </select>
+             */}
+              <select
+                id="rating"
+                value={getCategory}
+                onChange={(event) => setCategory(event.target.value)}
+              >
+                <option value="1">Wild</option>
+                <option value="2">Uproarious</option>
+                <option value="3">Poignant</option>
+                <option value="4">Felicitous</option>
+                <option value="5">Whimsical</option>
+              </select>
+              <button onClick={() => sendCategory(getCategory, fav.id)}>
+                Set Category
+              </button>
             </li>
           ))}
         </ul>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Favorites
-
+export default Favorites;
