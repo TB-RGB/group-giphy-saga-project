@@ -19,14 +19,6 @@ const Favorites = () => {
 
   const [filterCategory, setFilterCategory] = useState(0);
 
- 
-
-  const sendCategory = (catId, favId) => {
-    dispatch({
-      type: "SET_CATEGORY",
-      payload: { id: favId, categoryId: Number(catId) },
-    });
-  };
 
   const handleCategoryClick = (categoryId) => {
     setFilterCategory(categoryId);
