@@ -1,4 +1,5 @@
 import { useDispatch } from "react-redux"
+import { Button } from "@mui/material"
 
 const SearchItem =({ giphy })=>{
     const dispatch = useDispatch()
@@ -11,10 +12,13 @@ const SearchItem =({ giphy })=>{
     return(
         <>
         <div>
-            <div>
-                <img src={giphy.images.original.url} alt="" />
+            <div className="search-item">
+                <div className="image-container">
+                <img src={giphy.images.original.url} alt="" className="image"/>
+                </div>
+                <Button onClick={()=>addFavorite()}>Add Favorite</Button>
             </div>
-            <button onClick={()=>addFavorite()}>Add Favorite</button>
+            
         </div>
         </>
     )

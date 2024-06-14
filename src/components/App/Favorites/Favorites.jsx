@@ -1,53 +1,58 @@
-import { useSelector } from "react-redux";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-//might had button to go back to search 
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import FavoriteItem from "./FavoritesItem";
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import './Favorites.css'
 
 const Favorites = () => {
-  const favor = useSelector(store => store.favoriteList)
-  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch({ type: "FETCH_FAVORITES" });
+    dispatch({ type: "FETCH_CATEGORIES" });
+  }, []);
 
-  const [getCatogory, setCatogory] = useState('ALL')
+  const favor = useSelector((store) => store.favoriteList);
+  const categoryList = useSelector((store) => store.categories);
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const categories = ['ALL', ...new Set(favor.map(fav => fav.categories))]
+  const [filterCategory, setFilterCategory] = useState(0);
 
-  const filterFavor = getCatogory === 'ALL'
-    ? favor
-    : favor.filter(fav => fav.category === getCatogory);
 
-  const handleRemove = (event, id) => {
-    event.preventDefault()
-    dispatch({ type: "DROP_FAVORITE", payload: id })
-  }
+  const handleCategoryClick = (categoryId) => {
+    setFilterCategory(categoryId);
+  };
+
+  const filteredFavorites = filterCategory
+    ? favor.filter((fav) => fav.category === filterCategory)
+    : favor;
+
+
 
   return (
     <>
       <div>
         <h3>Favorite Images</h3>
-        <ul>
-          {favor.map((fav, index) => (
-
-
-            <li key={index}>
-              <img src={fav.url} alt={`Favorite ${index}`} /> <button onClick={(event) => handleRemove(fav.id)}>remove</button>
-
-              =
-              <select
-                value={getCatogory}
-                onClick={(e) => setCatogory(e.target.value)}
-              > Select  </select>
-              {categories.map((category, index) => {
-                <option key={index} value={category} > {category} </option>
-              })}
-
-            </li>
+        <div className="flex">
+        <div className="button-group">
+        <nav>
+        <ButtonGroup variant="outlined" color="secondary" aria-label="Basic button group">
+          {categoryList.map((category) => (
+             <Button sx={{height: 25}} key={category.id} onClick={() => handleCategoryClick(category.id)}>{category.name}</Button>
           ))}
-        </ul>
+          </ButtonGroup>
+        </nav>
+        </div>
+        </div>
+        <div className="favorite-container">
+          {filteredFavorites.map((fav) => (
+            <FavoriteItem key={fav.id} fav={fav}/>
+          ))}
+        </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Favorites
-
+export default Favorites;
