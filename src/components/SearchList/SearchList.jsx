@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux"
+import ImageList from '@mui/material/ImageList';
 import SearchItem from "../SearchItem/SearchItem"
 
 
@@ -17,11 +18,12 @@ console.log('giphyList', giphyList)
         
       
     
-        <div className="search-list-container">
+<ImageList cols={3}>
         {giphyList.map((giphy) => 
             <SearchItem key={giphy.id} giphy={giphy}/>
         )}
-        </div>
+        
+        </ImageList>
         </>
     )
     
