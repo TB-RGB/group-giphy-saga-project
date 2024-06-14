@@ -1,6 +1,6 @@
-import SearchForm from "../SearchForm/SearchForm";
 import SearchList from "../SearchList/SearchList";
 import Favorites from "./Favorites/Favorites";
+import Header from "./Header/Header";
 import {
   HashRouter as Router,
   Route,
@@ -10,25 +10,13 @@ import {
 function App() {
   return (
     <Router>
-      <div>
-        <h1>Giphy Search!</h1>
-        <header>
-          <Link to='/favorites'>
-            Favorites
-          </Link>
-          <br />
-          <Link to='/'>
-            Home
-          </Link>
-        </header>
-        <Route exact path="/">
-          <SearchForm />
-          <SearchList />
-        </Route>
-        <Route path="/favorites">
-          <Favorites />
-        </Route>
-      </div>
+      <Header />
+      <Route exact path="/">
+        <SearchList />
+      </Route>
+      <Route path="/favorites">
+        <Favorites />
+      </Route>
     </Router>
   );
 }
